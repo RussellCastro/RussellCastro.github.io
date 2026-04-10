@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Russell Castro &mdash; BeBOP Research</title>
+  <meta name="description" content="Russell Castro's research at BeBOP (UC Berkeley) — GPU-efficient equivariant GNNs and sparse-dense matrix multiplication.">
+  <meta property="og:title" content="Russell Castro — BeBOP Research">
+  <meta property="og:description" content="GPU-efficient equivariant GNNs and sparse matrix research at UC Berkeley.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0a0a0b">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22 font-family=%22system-ui%22 fill=%22%23e08a5e%22>r</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0b;
+      --bg-card: #141416;
+      --bg-card-hover: #1a1a1e;
+      --text: #e4e4e7;
+      --text-muted: #71717a;
+      --accent: #e08a5e;
+      --accent-dim: rgba(224, 138, 94, 0.12);
+      --border: #27272a;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+
+    a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 10, 11, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a.logo {
+      font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em;
+      color: var(--text); text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    nav a.logo:hover { opacity: 0.75; }
+    nav a.logo span { color: var(--accent); }
+    nav .back-link {
+      color: var(--text-muted); font-size: 0.875rem; font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    nav .back-link:hover { color: var(--accent); opacity: 1; }
+    nav .nav-right { display: flex; align-items: center; gap: 1.25rem; }
+    nav .nav-resume {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--accent);
+      font-size: 0.8rem; font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    nav .nav-resume:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      opacity: 1;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 1200px; margin: 0 auto;
+      padding: 7rem 2rem 2rem;
+    }
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-label::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 0.85rem;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), #c97b4b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 720px; line-height: 1.65;
+    }
+
+    /* VIEWER */
+    .viewer {
+      max-width: 1200px; margin: 0 auto;
+      padding: 1rem 2rem 4rem;
+    }
+    .deck-tabs {
+      display: flex; gap: 0.4rem; margin-bottom: -1px;
+      flex-wrap: wrap;
+    }
+    .deck-tab {
+      padding: 0.7rem 1.25rem;
+      background: transparent;
+      border: 1px solid var(--border); border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      color: var(--text-muted); font-size: 0.875rem; font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .deck-tab:hover { color: var(--text); }
+    .deck-tab.active {
+      background: var(--bg-card);
+      color: var(--accent);
+    }
+
+    .slide-frame {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0 var(--radius) var(--radius) var(--radius);
+      padding: 1.25rem;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1rem;
+      min-height: 60vh;
+    }
+    .slide-stage {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      min-height: 50vh;
+    }
+    .slide-stage canvas {
+      display: block;
+      max-width: 100%;
+      box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+      border-radius: 4px;
+      background: #ffffff;
+    }
+    .slide-stage .loading {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .slide-stage.loaded .loading { display: none; }
+
+    .slide-controls {
+      display: flex; align-items: center; gap: 1.25rem;
+      padding-top: 0.5rem;
+    }
+    .slide-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .slide-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .slide-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .slide-indicator {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      min-width: 4rem;
+      text-align: center;
+    }
+    .slide-indicator span { color: var(--accent); }
+
+    .kbd-hint {
+      text-align: center;
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    kbd {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.7rem;
+      color: var(--text);
+    }
+
+    footer {
+      text-align: center; padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.25rem 1.5rem; }
+      .viewer { padding: 1rem 1.25rem 3rem; }
+      .slide-frame { padding: 0.75rem; }
+      .slide-controls { gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">r<span>.</span>castro</a>
+  <div class="nav-right">
+    <a href="assets/Russell_Castro_Resume.pdf" target="_blank" rel="noopener" class="nav-resume">
+      Resume
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 3h7v7"/><line x1="10" y1="14" x2="21" y2="3"/><path d="M21 14v7h-7M3 21V3h7"/></svg>
+    </a>
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      back
+    </a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Research &middot; 2024&ndash;Present</div>
+  <h1>BeBOP <span class="highlight">@ Berkeley</span></h1>
+  <p>Selected presentations I gave as part of the Berkeley Benchmarking and OPtimization group: GPU-efficient SO(3) equivariant graph neural networks, and combined preprocessing methods for sparse&ndash;dense matrix multiplication.</p>
+</div>
+
+<section class="viewer">
+  <div class="deck-tabs" id="deck-tabs"></div>
+  <div class="slide-frame">
+    <div class="slide-stage" id="slide-stage">
+      <canvas id="slide-canvas"></canvas>
+      <div class="loading">Loading slides&hellip;</div>
+    </div>
+    <div class="slide-controls">
+      <button class="slide-btn" id="prev-btn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Prev
+      </button>
+      <div class="slide-indicator" id="slide-indicator"><span>&mdash;</span> / &mdash;</div>
+      <button class="slide-btn" id="next-btn">
+        Next
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+  <p class="kbd-hint">Navigate with <kbd>&larr;</kbd> <kbd>&rarr;</kbd></p>
+</section>
+
+<footer>
+  <p>Russell Castro &copy; 2026</p>
+</footer>
+
+<script type="module">
+  import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs';
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';
+
+  const decks = [
+    { label: 'EGNN',                url: 'assets/work/bebop/egnn.pdf' },
+    { label: 'Rabbit / Rabbit++',   url: 'assets/work/bebop/rabbit.pdf' },
+  ];
+
+  const tabsEl    = document.getElementById('deck-tabs');
+  const stageEl   = document.getElementById('slide-stage');
+  const canvas    = document.getElementById('slide-canvas');
+  const ctx       = canvas.getContext('2d');
+  const prevBtn   = document.getElementById('prev-btn');
+  const nextBtn   = document.getElementById('next-btn');
+  const indicator = document.getElementById('slide-indicator');
+
+  let currentDeck = 0;
+  let currentPage = 1;
+  let pdf = null;
+  let renderToken = 0;
+
+  // Build tab strip
+  decks.forEach((d, i) => {
+    const b = document.createElement('button');
+    b.className = 'deck-tab' + (i === 0 ? ' active' : '');
+    b.textContent = d.label;
+    b.addEventListener('click', () => loadDeck(i));
+    tabsEl.appendChild(b);
+  });
+
+  async function loadDeck(idx) {
+    currentDeck = idx;
+    currentPage = 1;
+    stageEl.classList.remove('loaded');
+    document.querySelectorAll('.deck-tab').forEach((t, i) =>
+      t.classList.toggle('active', i === idx)
+    );
+    try {
+      pdf = await pdfjsLib.getDocument(decks[idx].url).promise;
+      await renderPage();
+    } catch (err) {
+      indicator.innerHTML = '<span>!</span>';
+      stageEl.querySelector('.loading').textContent = 'Failed to load PDF';
+      console.error(err);
+    }
+  }
+
+  async function renderPage() {
+    if (!pdf) return;
+    const myToken = ++renderToken;
+    const page = await pdf.getPage(currentPage);
+    if (myToken !== renderToken) return;
+
+    const v0 = page.getViewport({ scale: 1 });
+    const stageRect = stageEl.getBoundingClientRect();
+    const maxW = stageRect.width;
+    const maxH = window.innerHeight * 0.72;
+    const fitScale = Math.min(maxW / v0.width, maxH / v0.height);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const v = page.getViewport({ scale: fitScale * dpr });
+
+    canvas.width = v.width;
+    canvas.height = v.height;
+    canvas.style.width  = (v.width  / dpr) + 'px';
+    canvas.style.height = (v.height / dpr) + 'px';
+
+    await page.render({ canvasContext: ctx, viewport: v }).promise;
+    if (myToken !== renderToken) return;
+
+    stageEl.classList.add('loaded');
+    indicator.innerHTML = `<span>${currentPage}</span> / ${pdf.numPages}`;
+    prevBtn.disabled = currentPage <= 1;
+    nextBtn.disabled = currentPage >= pdf.numPages;
+  }
+
+  function next() { if (pdf && currentPage < pdf.numPages) { currentPage++; renderPage(); } }
+  function prev() { if (pdf && currentPage > 1)             { currentPage--; renderPage(); } }
+
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+  window.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')                    { e.preventDefault(); prev(); }
+  });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => renderPage(), 120);
+  });
+
+  loadDeck(0);
+</script>
+
+</body>
+</html>

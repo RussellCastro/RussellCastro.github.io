@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Russell Castro &mdash; FRC</title>
+  <meta name="description" content="Russell Castro's FIRST Robotics Competition work — technical lead and main driver across four build seasons, culminating in world championship appearance.">
+  <meta property="og:title" content="Russell Castro — FIRST Robotics">
+  <meta property="og:description" content="Technical lead and main driver — LA Regional Champions, World Championship.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0a0a0b">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22 font-family=%22system-ui%22 fill=%22%23e08a5e%22>r</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0b;
+      --bg-card: #141416;
+      --bg-card-hover: #1a1a1e;
+      --text: #e4e4e7;
+      --text-muted: #71717a;
+      --accent: #e08a5e;
+      --accent-dim: rgba(224, 138, 94, 0.12);
+      --border: #27272a;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+
+    a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 10, 11, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a.logo {
+      font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em;
+      color: var(--text); text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    nav a.logo:hover { opacity: 0.75; }
+    nav a.logo span { color: var(--accent); }
+    nav .back-link {
+      color: var(--text-muted); font-size: 0.875rem; font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    nav .back-link:hover { color: var(--accent); opacity: 1; }
+    nav .nav-right { display: flex; align-items: center; gap: 1.25rem; }
+    nav .nav-resume {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--accent);
+      font-size: 0.8rem; font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    nav .nav-resume:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      opacity: 1;
+    }
+
+    .hero {
+      max-width: 1200px; margin: 0 auto;
+      padding: 7rem 2rem 2rem;
+    }
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-label::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 0.85rem;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), #c97b4b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 760px; line-height: 1.65;
+    }
+    .hero-results {
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      max-width: 820px;
+      line-height: 1.8;
+    }
+    .hero-results .sep { color: var(--accent); margin: 0 0.55rem; opacity: 0.7; }
+    .hero-results strong { color: var(--text); font-weight: 500; }
+
+    .stats {
+      max-width: 1200px; margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .stat {
+      padding: 1.4rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+    .stat:hover {
+      border-color: rgba(224, 138, 94, 0.35);
+      transform: translateY(-2px);
+    }
+    .stat-num {
+      font-size: 2rem; font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 0.5rem;
+    }
+
+    .viewer-section {
+      max-width: 1200px; margin: 0 auto;
+      padding: 1.5rem 2rem 1rem;
+    }
+    .viewer-frame {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16 / 10;
+      max-height: 70vh;
+    }
+    .viewer-frame canvas { display: block; width: 100%; height: 100%; }
+    .viewer-frame .loading,
+    .viewer-frame .error {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      pointer-events: none;
+    }
+    .viewer-frame.loaded .loading { display: none; }
+
+    .viewer-hint {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+    .viewer-hint kbd {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1rem 0.45rem;
+      color: var(--text);
+    }
+
+    .robot-photo {
+      margin: 1rem 0 0;
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .robot-photo img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .body-section {
+      max-width: 1200px; margin: 0 auto;
+      padding: 2rem 2rem 1rem;
+    }
+    .body-section h2 {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .body-section h2::before {
+      content: ''; width: 2rem; height: 1px; background: var(--accent);
+    }
+    .body-section p {
+      color: var(--text-muted);
+      font-size: 0.95rem; line-height: 1.7;
+      max-width: 820px;
+      margin-bottom: 1rem;
+    }
+    .body-section p strong { color: var(--text); font-weight: 500; }
+    .subsystem-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .subsystem {
+      padding: 1rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+    .subsystem-name {
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .subsystem-lead {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    footer {
+      text-align: center; padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.25rem 1.5rem; }
+      .stats, .viewer-section, .body-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .viewer-frame { aspect-ratio: 4 / 3; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">r<span>.</span>castro</a>
+  <div class="nav-right">
+    <a href="assets/Russell_Castro_Resume.pdf" target="_blank" rel="noopener" class="nav-resume">
+      Resume
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 3h7v7"/><line x1="10" y1="14" x2="21" y2="3"/><path d="M21 14v7h-7M3 21V3h7"/></svg>
+    </a>
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      back
+    </a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Robotics &middot; 2019&ndash;2023</div>
+  <h1>FIRST Robotics <span class="highlight">Competition</span></h1>
+  <p>Four build seasons as a technical lead and main driver. Final year focused on leadership, delegation, and knowledge transfer across CAD, CAM, and programming sub-teams. Contributed to team's first competition wins in history.</p>
+  <p class="hero-results">
+    <strong>Beach Blitz Champions</strong> (2022)
+    <span class="sep">&middot;</span>
+    <strong>LA Regional Champions</strong> (2023)
+    <span class="sep">&middot;</span>
+    <strong>Archimedes World Division</strong> (2023)
+    <span class="sep">&middot;</span>
+    <strong>Einstein Field appearance</strong> at FIRST Championship
+  </p>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">Competition Events Won</div></div>
+  <div class="stat"><div class="stat-num">100+</div><div class="stat-label">Drawings Reviewed</div></div>
+</div>
+
+<section class="viewer-section">
+  <div class="viewer-frame" id="viewer-frame">
+    <canvas id="robot-canvas"></canvas>
+    <div class="loading">Loading robot&hellip;</div>
+  </div>
+  <div class="viewer-hint">
+    <span><kbd>drag</kbd> rotate &middot; <kbd>scroll</kbd> zoom &middot; <kbd>shift+drag</kbd> pan</span>
+    <span>FRC 687's 2023 Robot</span>
+  </div>
+  <figure class="robot-photo">
+    <img src="assets/work/frc/robot.jpg" alt="Final-season FRC robot">
+  </figure>
+</section>
+
+<section class="body-section">
+  <h2>Leadership &amp; Delegation</h2>
+  <p>
+    Led technical teams during the final season, mentoring <strong>3 CAD leads</strong>,
+    <strong>2 CAM leads</strong>, and <strong>3 programming leads</strong>. Delegated
+    end-to-end CAD ownership of one subsystem to each CAD lead so they could carry a
+    mechanism from concept through manufacturing themselves.
+  </p>
+  <p style="margin-top: 1.25rem;">
+    Acted as final student signer on every part drawing before it left CAD for the machine shop &mdash;
+    <strong>More than 100 drawings reviewed</strong> across the season for tolerancing, manufacturability,
+    and assembly fit.
+  </p>
+</section>
+
+<section class="body-section">
+  <h2>Knowledge Transfer</h2>
+  <p>
+    Spent the final year documenting what I'd learned from earlier seasons so the team
+    could keep moving after I graduated. Two areas that needed the most handoff:
+  </p>
+  <p>
+    &mdash; <strong>Autonomous swerve path planning</strong>: trajectory generation,
+    feedforward + feedback on heading, on-the-fly re-planning under sensor noise.
+  </p>
+  <p>
+    &mdash; <strong>Heavy arm dynamics &amp; control</strong>: gravity compensation, motion
+    profiling, and tuning a cascaded position loop on a long lever arm carrying a heavy
+    end-effector.
+  </p>
+</section>
+
+<footer>
+  <p>Russell Castro &copy; 2026</p>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+  import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+  const frame   = document.getElementById('viewer-frame');
+  const canvas  = document.getElementById('robot-canvas');
+  const loading = frame.querySelector('.loading');
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x141416, 1);
+
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.01, 5000);
+  camera.position.set(2.2, 1.6, 2.4);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.1);
+  key.position.set(4, 6, 4);
+  scene.add(key);
+  const fill = new THREE.DirectionalLight(0xe08a5e, 0.45);
+  fill.position.set(-5, -2, 3);
+  scene.add(fill);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.35);
+  rim.position.set(-2, 4, -5);
+  scene.add(rim);
+
+  // Subtle ground for context.
+  const grid = new THREE.GridHelper(20, 20, 0x27272a, 0x1a1a1e);
+  grid.position.y = -1.0;
+  scene.add(grid);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.minDistance = 0.6;
+  controls.maxDistance = 30;
+
+  // Sizing
+  function resize() {
+    const w = frame.clientWidth, h = frame.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  resize();
+  const ro = new ResizeObserver(resize);
+  ro.observe(frame);
+
+  // Load the robot STL.
+  new STLLoader().load(
+    'assets/work/frc/robot.stl',
+    geom => {
+      geom.computeVertexNormals();
+
+      // Orientation knobs — tweak these if the robot looks rotated wrong.
+      // Each value is in radians; pick from { 0, Math.PI/2, -Math.PI/2, Math.PI }.
+      // Try changing ROT_X first (it's the most common fix).
+      const ROT_X = 0;
+      const ROT_Y = 0;
+      const ROT_Z = 0;
+
+      const upright = new THREE.Matrix4()
+        .makeRotationX(ROT_X)
+        .multiply(new THREE.Matrix4().makeRotationY(ROT_Y))
+        .multiply(new THREE.Matrix4().makeRotationZ(ROT_Z));
+      geom.applyMatrix4(upright);
+
+      geom.computeBoundingBox();
+      geom.computeBoundingSphere();
+
+      // Center the rotated geometry on the origin.
+      const c = geom.boundingBox.getCenter(new THREE.Vector3());
+      geom.translate(-c.x, -c.y, -c.z);
+      geom.computeBoundingBox();
+      geom.computeBoundingSphere();
+
+      // Scale so the model fits comfortably in view.
+      const targetRadius = 1.6;
+      const scale = targetRadius / geom.boundingSphere.radius;
+
+      const mat = new THREE.MeshStandardMaterial({
+        color: 0xc4cad6, metalness: 0.6, roughness: 0.38,
+        flatShading: false,
+      });
+      const mesh = new THREE.Mesh(geom, mat);
+      mesh.scale.setScalar(scale);
+      scene.add(mesh);
+
+      // Drop the grid just below the model.
+      const box = geom.boundingBox.clone().applyMatrix4(
+        new THREE.Matrix4().makeScale(scale, scale, scale)
+      );
+      grid.position.y = box.min.y - 0.05;
+
+      // Frame the camera around the model.
+      const sphere = geom.boundingSphere.clone();
+      sphere.radius *= scale;
+      const dist = sphere.radius / Math.sin((camera.fov / 2) * Math.PI / 180) * 1.25;
+      camera.position.set(dist * 0.7, dist * 0.45, dist * 0.7);
+      controls.target.set(0, 0, 0);
+      controls.update();
+
+      frame.classList.add('loaded');
+    },
+    undefined,
+    err => {
+      loading.textContent = 'Failed to load robot.stl';
+      console.error(err);
+    }
+  );
+
+  function tick() {
+    controls.update();
+    renderer.render(scene, camera);
+    requestAnimationFrame(tick);
+  }
+  tick();
+</script>
+
+</body>
+</html>
