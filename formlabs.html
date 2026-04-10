@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Russell Castro &mdash; Formlabs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0b;
+      --bg-card: #141416;
+      --bg-card-hover: #1a1a1e;
+      --text: #e4e4e7;
+      --text-muted: #71717a;
+      --accent: #e08a5e;
+      --accent-dim: rgba(224, 138, 94, 0.12);
+      --border: #27272a;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+
+    a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 10, 11, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-bottom-color: var(--border); }
+    nav a.logo {
+      font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em;
+      color: var(--text); text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    nav a.logo:hover { opacity: 0.75; }
+    nav a.logo span { color: var(--accent); }
+    nav .back-link {
+      color: var(--text-muted); font-size: 0.875rem; font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    nav .back-link:hover { color: var(--accent); opacity: 1; }
+
+    /* HERO */
+    .hero {
+      min-height: 60vh; display: flex; align-items: center;
+      padding: 8rem 2rem 4rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .hero-content { width: 100%; }
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-label::before {
+      content: ''; width: 2rem; height: 1px; background: var(--accent);
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5.5vw, 4rem);
+      font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 1rem;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), #c97b4b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.1rem; color: var(--text-muted); max-width: 640px;
+      line-height: 1.7; margin-bottom: 2.5rem;
+    }
+
+    .stats { display: flex; gap: 2.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .stat {
+      padding: 1.25rem 1.5rem; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      min-width: 140px; transition: all 0.2s;
+    }
+    .stat:hover { border-color: rgba(224, 138, 94, 0.3); transform: translateY(-2px); }
+    .stat-num {
+      font-size: 1.85rem; font-weight: 700; color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 0.75rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      font-family: 'JetBrains Mono', monospace; margin-top: 0.25rem;
+    }
+
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tech {
+      padding: 0.35rem 0.75rem; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 6px;
+      font-size: 0.8rem; color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.2s;
+    }
+    .tech:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* SECTIONS */
+    section {
+      max-width: 1200px; margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+    .section-header {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .section-header h2 {
+      font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+    .section-header h2 span {
+      color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 500;
+    }
+    .section-header::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* TABS */
+    .tabs { display: flex; gap: 0.25rem; margin-bottom: -1px; flex-wrap: wrap; }
+    .tab {
+      padding: 0.7rem 1.25rem; background: transparent;
+      border: 1px solid var(--border); border-bottom: none;
+      border-radius: 8px 8px 0 0; cursor: pointer;
+      color: var(--text-muted); font-size: 0.875rem; font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active {
+      background: var(--bg-card); color: var(--accent);
+      border-color: var(--border);
+    }
+    .tab-content {
+      display: none;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 0 var(--radius) var(--radius) var(--radius);
+      padding: 2rem;
+    }
+    .tab-content.active { display: block; }
+
+    .feature-desc {
+      color: var(--text-muted); font-size: 0.95rem;
+      line-height: 1.7; margin-bottom: 1.75rem; max-width: 820px;
+    }
+
+    .arch-box {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;
+      white-space: pre; overflow-x: auto; margin-bottom: 1.75rem;
+    }
+    .mermaid-wrap {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem;
+      margin-bottom: 1.75rem; overflow-x: auto;
+    }
+    .mermaid-wrap .mermaid {
+      display: flex; justify-content: center;
+      font-family: 'Inter', sans-serif;
+    }
+    .mermaid-wrap .mermaid svg {
+      max-width: 100%; height: auto;
+      max-height: 180px;
+    }
+
+    .flow-section-title {
+      font-size: 1rem; color: var(--text); font-weight: 600;
+      margin: 2rem 0 0.75rem; letter-spacing: -0.01em;
+    }
+    .branch-label {
+      color: var(--accent); font-size: 0.75rem; font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin: 1.5rem 0 0.75rem;
+    }
+    .branch-divider {
+      border-top: 1px dashed var(--border); margin: 1.5rem 0;
+    }
+    .flow-row {
+      display: flex; align-items: flex-start; gap: 0.5rem;
+      overflow-x: auto; padding: 0.5rem 0;
+    }
+    .flow-step {
+      min-width: 200px; max-width: 220px; flex-shrink: 0;
+    }
+    .flow-step img {
+      width: 100%; border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .flow-step img:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .flow-step .step-label {
+      padding: 0.6rem 0.25rem; font-size: 0.75rem;
+      color: var(--text-muted); line-height: 1.5;
+    }
+    .step-num {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent); font-weight: 600;
+      margin-right: 0.4rem;
+    }
+    .flow-arrow {
+      display: flex; align-items: center;
+      color: var(--border); font-size: 1.25rem;
+      padding-top: 3rem; flex-shrink: 0;
+    }
+
+    .screenshots {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .screenshot {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: all 0.2s;
+    }
+    .screenshot:hover {
+      border-color: rgba(224, 138, 94, 0.3);
+      transform: translateY(-2px);
+    }
+    .screenshot img {
+      width: 100%; display: block; cursor: pointer;
+    }
+    .screenshot .caption {
+      padding: 0.85rem 1rem; font-size: 0.8rem;
+      color: var(--text-muted); line-height: 1.5;
+    }
+
+    /* PR LISTS */
+    .feature-prs { margin-top: 2rem; }
+    .feature-prs h4 {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--accent); margin-bottom: 0.75rem;
+      font-family: 'JetBrains Mono', monospace; font-weight: 500;
+    }
+
+    .category { margin-bottom: 2rem; }
+    .category h3 {
+      font-size: 1rem; color: var(--text); font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    .category h3 .count {
+      background: var(--accent-dim); color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; font-weight: 500;
+      padding: 0.15rem 0.55rem; border-radius: 10px;
+    }
+
+    .pr-list { list-style: none; }
+    .pr-item {
+      display: flex; align-items: center; flex-wrap: wrap;
+      padding: 0.75rem 1rem;
+      border-left: 2px solid var(--border);
+      background: var(--bg-card);
+      margin-bottom: 0.35rem;
+      border-radius: 0 6px 6px 0;
+      transition: all 0.2s;
+    }
+    .pr-item:hover {
+      border-left-color: var(--accent);
+      background: var(--bg-card-hover);
+    }
+    .pr-title {
+      color: var(--text); flex: 1; min-width: 0;
+      font-size: 0.875rem; line-height: 1.4;
+    }
+    .pr-title:hover { color: var(--accent); opacity: 1; }
+    .pr-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: var(--text-muted);
+      margin-left: 0.85rem; white-space: nowrap;
+    }
+    .pr-repo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--accent);
+      background: var(--accent-dim);
+      padding: 0.1rem 0.5rem; border-radius: 4px;
+      margin-left: 0.6rem;
+    }
+
+    .open-prs {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+    }
+    .open-prs h3 {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--accent); margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace; font-weight: 500;
+    }
+    .open-prs .pr-item { background: transparent; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(10, 10, 11, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      justify-content: center; align-items: center;
+      cursor: pointer; padding: 2rem;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 95%; max-height: 95%;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.8rem;
+      margin-top: 4rem;
+    }
+
+    /* ARCHITECTURE TAB */
+    #tab-architecture .section { margin-bottom: 2.5rem; }
+    #tab-architecture .section:last-child { margin-bottom: 0; }
+    #tab-architecture h2 {
+      font-size: 1.15rem; font-weight: 600; margin-bottom: 0.85rem;
+      color: var(--text); letter-spacing: -0.01em;
+    }
+    #tab-architecture h3 {
+      font-size: 0.78rem; font-weight: 600; margin-bottom: 0.7rem;
+      color: var(--accent); font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    #tab-architecture p {
+      color: var(--text-muted); font-size: 0.92rem; line-height: 1.7;
+      margin-bottom: 1.25rem; max-width: 820px;
+    }
+
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 768px) { .compare { grid-template-columns: 1fr; } }
+    .compare-panel {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; overflow: hidden;
+    }
+    .compare-panel.before { border-left: 3px solid #7d4444; }
+    .compare-panel.after  { border-left: 3px solid #3fb950; }
+
+    .code-block {
+      background: #06070a; border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: var(--text);
+      line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-comment { color: #6a737d; font-style: italic; }
+    .code-keyword { color: #ff7b72; }
+    .code-type    { color: #ffa657; }
+    .code-fn      { color: #d2a8ff; }
+
+    .diagram {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.25rem; margin-top: 1rem;
+    }
+    .diagram-label {
+      margin-top: 0.85rem; font-size: 0.75rem;
+      color: var(--text-muted); font-style: italic;
+    }
+
+    .layer-stack {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.35rem;
+    }
+    .layer {
+      width: 100%; max-width: 580px;
+      padding: 0.85rem 1rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 6px;
+      font-weight: 600; font-size: 0.85rem; color: var(--text);
+      text-align: center;
+    }
+    .layer .layer-note {
+      display: block; margin-top: 0.3rem;
+      font-weight: 400; font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .layer.task           { border-color: #e08a5e; }
+    .layer.subsystem      { border-color: #d2a8ff; }
+    .layer.hardware-iface { border-color: #58a6ff; }
+    .layer.hardware-impl  { border-color: #3fb950; }
+    .layer-arrow {
+      color: var(--text-muted); font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .subsystem-grid { display: flex; flex-direction: column; gap: 0.3rem; }
+    .subsystem-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+      gap: 0.5rem; align-items: center;
+      font-size: 0.78rem;
+    }
+    .subsystem-row.header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.4rem;
+    }
+    .subsystem-name { color: var(--text); padding: 0.4rem 0.75rem; }
+    .subsystem-cell {
+      text-align: center; padding: 0.4rem 0.45rem;
+      border-radius: 4px; font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .subsystem-cell.yes { background: #1a3a2a; border: 1px solid #3fb950; color: #7ee8a5; }
+    .subsystem-cell.new { background: #1f2a3a; border: 1px solid #58a6ff; color: #79c0ff; }
+    .subsystem-cell.no  { background: #1a1a1a; border: 1px solid #484f58; color: #6e7681; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.85rem;
+    }
+    .product-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.15rem;
+    }
+    .product-card.shared   { border-left: 3px solid #58a6ff; }
+    .product-card.specific { border-left: 3px solid #e08a5e; }
+    .product-card h4 {
+      font-size: 0.85rem; color: var(--text);
+      margin-bottom: 0.6rem; letter-spacing: -0.01em;
+    }
+    .product-card ul { list-style: none; padding: 0; }
+    .product-card li {
+      font-size: 0.78rem; color: var(--text-muted);
+      padding: 0.2rem 0 0.2rem 0.85rem; position: relative;
+      line-height: 1.5;
+    }
+    .product-card li::before {
+      content: '›'; position: absolute; left: 0; color: var(--accent);
+    }
+
+    .impact {
+      background: var(--bg); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px; padding: 1rem 1.25rem;
+      margin-bottom: 0.85rem;
+    }
+    .impact h4 {
+      font-size: 0.72rem; color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .impact p, .impact ul {
+      color: var(--text-muted); font-size: 0.85rem;
+      margin-bottom: 0; line-height: 1.6;
+    }
+    .impact ul { list-style: none; padding: 0; }
+    .impact li {
+      padding: 0.2rem 0 0.2rem 1rem; position: relative;
+    }
+    .impact li::before {
+      content: '→'; position: absolute; left: 0; color: var(--accent);
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      section { padding: 3rem 1.25rem; }
+      .hero { padding: 7rem 1.25rem 3rem; }
+      .tab-content { padding: 1.25rem; }
+      .stats { gap: 0.75rem; }
+      .stat { min-width: 120px; padding: 1rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="logo" href="index.html">r<span>.</span>castro</a>
+  <a href="index.html" class="back-link">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    back
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-label">Embedded Software</div>
+    <h1>Formlabs <span class="highlight">Portfolio</span></h1>
+    <p>Production firmware, onboard UI, and cloud integrations for the Form 4/L and Fuse product lines &mdash; written in C++, QML, Go, and Protobuf.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-num">60+</div><div class="stat-label">PRs Merged</div></div>
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Commits</div></div>
+    </div>
+
+    <div class="tech-stack">
+      <span class="tech">C++</span><span class="tech">Qt / QML</span><span class="tech">Protobuf</span>
+      <span class="tech">MQTT</span><span class="tech">NATS</span><span class="tech">CMake</span>
+      <span class="tech">Catch2</span><span class="tech">Python</span><span class="tech">Linux / ARM</span>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="this.classList.remove('active')">
+  <img id="lightbox-img" src="">
+</div>
+
+<!-- FEATURE SHOWCASE -->
+<section>
+  <div class="section-header"><h2><span>01.</span> Work Examples</h2></div>
+  <div class="tabs">
+    <div class="tab active" onclick="showTab(event, 'debris')">UI/UX: Debris Detection</div>
+    <div class="tab" onclick="showTab(event, 'architecture')">Architecture: Shared Actions</div>
+    <div class="tab" onclick="showTab(event, 'touchui')">Touchscreen UI Pages</div>
+  </div>
+
+  <div class="tab-content active" id="tab-debris">
+    <p class="feature-desc">
+      Full-stack feature spanning the printer firmware application (ZForce sensor debris detection), orchestrator
+      (state management and maintenance triggers), and touchscreen UI (user-facing alerts and guided maintenance
+      workflows). When debris is detected in the resin tank, the printer alerts the user and guides them through
+      cleaning options.
+    </p>
+
+    <div class="mermaid-wrap">
+      <pre class="mermaid">
+flowchart LR
+    classDef sys fill:#1a1a1e,stroke:#e08a5e,stroke-width:1.5px,color:#e4e4e7
+    classDef ui fill:#141416,stroke:#27272a,stroke-width:1px,color:#e4e4e7
+    classDef done fill:#1a1a1e,stroke:#e08a5e,stroke-width:2px,color:#e08a5e
+
+    FW["Printer Firmware"]:::sys
+    ORCH["Orchestrator"]:::sys
+    Modal["Clean your tank"]:::ui
+    PathA["Print sheet"]:::ui
+    PathB["Filter resin"]:::ui
+    Done(("Resolved")):::done
+
+    FW -- "debris event" --> ORCH --> Modal
+    Modal --> PathA --> Done
+    Modal --> PathB --> Done
+      </pre>
+    </div>
+
+    <h3 class="flow-section-title">UI Flow</h3>
+
+    <p class="branch-label">Detection and triage</p>
+    <div class="flow-row">
+      <div class="flow-step">
+        <img src="assets/formlabs/detect-1-tank-debris.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">1</span>Tank with debris inserted. Alert: "Possible debris in tank"</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <img src="assets/formlabs/detect-2-clean-tank.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">2</span>Maintenance: "Clean your tank" with "Debris in Tank" warning</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <img src="assets/formlabs/detect-3-choose.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">3</span>User chooses: print cleaning sheet or filter resin</div>
+      </div>
+    </div>
+
+    <div class="branch-divider"></div>
+    <p class="branch-label">Path A: Print cleaning sheet</p>
+    <div class="flow-row">
+      <div class="flow-step">
+        <img src="assets/formlabs/pathA-4-close-cover.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">4a</span>Close cover to begin printing the cleaning sheet</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <img src="assets/formlabs/pathA-5-printing.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">5a</span>"Printing cleaning sheet..." with progress spinner</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <img src="assets/formlabs/pathA-6-remove-sheet.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">6a</span>Remove cleaning sheet with instructions</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <img src="assets/formlabs/pathA-7-resolved.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">7</span>Maintenance resolved. No recommended maintenance.</div>
+      </div>
+    </div>
+
+    <div class="branch-divider"></div>
+    <p class="branch-label">Path B: Filter resin</p>
+    <div class="flow-row">
+      <div class="flow-step">
+        <img src="assets/formlabs/pathB-4-filter-resin.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">4b</span>Filter resin instructions with QR code to support article</div>
+      </div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step">
+        <img src="assets/formlabs/pathB-5-resolved.png" onclick="openLightbox(this)">
+        <div class="step-label"><span class="step-num">5b</span>Maintenance resolved. No recommended maintenance.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-architecture">
+    <div class="section">
+      <h2>Problem</h2>
+      <p>
+        Each printer product had its own firmware implementation. When the product line grew from 2 to 5+ printers,
+        features were being duplicated across codebases. A motor move task written for Printer A would be
+        copy-pasted and adapted for Printer B, leading to divergent behavior, duplicated bugs, and high maintenance cost.
+      </p>
+
+      <div class="compare">
+        <div class="compare-panel before">
+          <h3>Before: Duplicated per product</h3>
+          <div class="code-block"><span class="code-comment">// Printer A firmware</span>
+<span class="code-keyword">class</span> <span class="code-type">PrinterA_MotorMove</span> : <span class="code-keyword">public</span> <span class="code-type">Task</span> {
+    <span class="code-type">TaskResult</span> <span class="code-fn">Run</span>(<span class="code-type">PrinterA_Context</span>&amp; ctx) {
+        <span class="code-comment">// 200 lines of motor control logic</span>
+        <span class="code-comment">// mixed with hardware-specific SPI calls</span>
+    }
+};
+
+<span class="code-comment">// Printer B firmware (copy-pasted, diverged)</span>
+<span class="code-keyword">class</span> <span class="code-type">PrinterB_MotorMove</span> : <span class="code-keyword">public</span> <span class="code-type">Task</span> {
+    <span class="code-type">TaskResult</span> <span class="code-fn">Run</span>(<span class="code-type">PrinterB_Context</span>&amp; ctx) {
+        <span class="code-comment">// Same logic, different hardware calls</span>
+        <span class="code-comment">// Bug fixes applied here but not in A</span>
+    }
+};</div>
+        </div>
+        <div class="compare-panel after">
+          <h3>After: Shared task, product-specific hardware</h3>
+          <div class="code-block"><span class="code-comment">// Shared firmware (write once)</span>
+<span class="code-keyword">class</span> <span class="code-type">MotorMove</span> : <span class="code-keyword">public</span> <span class="code-type">SharedTask</span> {
+    <span class="code-type">TaskResult</span> <span class="code-fn">Run</span>(<span class="code-type">Context</span>&amp; ctx) {
+        <span class="code-keyword">auto</span> motor = ctx.<span class="code-fn">Get</span>&lt;<span class="code-type">I_MotorSubsystem</span>&gt;();
+        <span class="code-keyword">return</span> motor-&gt;<span class="code-fn">MoveRelative</span>(axis, distance);
+    }
+};
+
+<span class="code-comment">// Each product just implements the interface</span>
+<span class="code-keyword">class</span> <span class="code-type">PrinterA_Motor</span> : <span class="code-keyword">public</span> <span class="code-type">I_MotorHardware</span> { <span class="code-comment">/*...*/</span> };
+<span class="code-keyword">class</span> <span class="code-type">PrinterB_Motor</span> : <span class="code-keyword">public</span> <span class="code-type">I_MotorHardware</span> { <span class="code-comment">/*...*/</span> };</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Architecture</h2>
+      <p>
+        Three-layer abstraction: Tasks define behavior, Subsystems manage state and coordination,
+        and Hardware interfaces abstract the physical layer. Each product implements only the hardware
+        layer, inheriting all shared tasks and subsystem logic.
+      </p>
+
+      <div class="diagram">
+        <h3>Abstraction Layers</h3>
+        <div class="layer-stack">
+          <div class="layer task">
+            Shared Tasks
+            <span class="layer-note">Portable operations (e.g., RelativeMove, ReadSensor, NFC_Authenticate)</span>
+          </div>
+          <div class="layer-arrow">&#9660; calls</div>
+          <div class="layer subsystem">
+            Shared Subsystems
+            <span class="layer-note">State management, motion planning, PID control, coordination logic</span>
+          </div>
+          <div class="layer-arrow">&#9660; calls</div>
+          <div class="layer hardware-iface">
+            Abstract Hardware Interfaces
+            <span class="layer-note">Contract: I_MotorHardware, I_SensorHardware, I_NFCHardware, ...</span>
+          </div>
+          <div class="layer-arrow">&#9660; implemented by</div>
+          <div class="layer hardware-impl">
+            Product-Specific Hardware Drivers
+            <span class="layer-note">SPI/I2C/protobuf communication with actual MCU hardware</span>
+          </div>
+        </div>
+        <div class="diagram-label">Tasks never access hardware directly. Subsystems hold state. Hardware classes are stateless drivers.</div>
+      </div>
+
+      <div class="diagram">
+        <h3>Integration Pattern</h3>
+        <div class="code-block"><span class="code-comment">// Product startup sequence wires shared subsystems to product-specific hardware</span>
+
+<span class="code-keyword">class</span> <span class="code-type">MotionSubsystemInit</span> : <span class="code-keyword">public</span> <span class="code-type">Task</span> {
+    <span class="code-type">TaskResult</span> <span class="code-fn">Run</span>(<span class="code-type">Context</span>&amp; ctx) {
+        <span class="code-comment">// 1. Alias product hardware as the shared interface type</span>
+        <span class="code-keyword">auto</span> hw = ctx.<span class="code-fn">AliasResource</span>&lt;<span class="code-type">ProductHardware</span>, <span class="code-type">I_MotorHardware</span>&gt;();
+
+        <span class="code-comment">// 2. Create shared subsystem with hardware interface</span>
+        <span class="code-keyword">auto</span> subsystem = std::<span class="code-fn">make_unique</span>&lt;<span class="code-type">MotionSubsystem</span>&gt;(hw);
+
+        <span class="code-comment">// 3. Register in context -- all shared tasks can now use it</span>
+        ctx.<span class="code-fn">StoreResource</span>&lt;<span class="code-type">I_MotionSubsystem</span>&gt;(std::<span class="code-fn">move</span>(subsystem));
+    }
+};
+
+<span class="code-comment">// After init, shared tasks like RelativeMove, HomeAxis, SyncMotors</span>
+<span class="code-comment">// work on ANY product that registered a MotionSubsystem.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Subsystem Coverage</h2>
+      <p>
+        Each row is a shared subsystem I designed and ported. Columns show which product lines
+        adopted it. "Ported" means I wrote the integration; "Adopted" means the team integrated it
+        after the shared subsystem existed.
+      </p>
+
+      <div class="diagram" style="padding: 20px;">
+        <div class="subsystem-grid">
+          <div class="subsystem-row header">
+            <div>Subsystem</div>
+            <div style="text-align:center">Printer A</div>
+            <div style="text-align:center">Printer B</div>
+            <div style="text-align:center">Printer C</div>
+            <div style="text-align:center">Printer D</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Motion Control</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Adopted</div>
+            <div class="subsystem-cell no">N/A</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Peel Detection</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Adopted</div>
+            <div class="subsystem-cell no">N/A</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Force Sensing</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Adopted</div>
+            <div class="subsystem-cell no">N/A</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">NFC Authentication</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Adopted</div>
+            <div class="subsystem-cell new">Ported</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">SPI Bus Driver</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Adopted</div>
+            <div class="subsystem-cell new">Ported</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Lighting Control</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Adopted</div>
+            <div class="subsystem-cell no">N/A</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Board Monitoring</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Adopted</div>
+            <div class="subsystem-cell new">Ported</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Resin Level Sensing</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Adopted</div>
+            <div class="subsystem-cell no">N/A</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Analog Lab Interface</div>
+            <div class="subsystem-cell no">N/A</div>
+            <div class="subsystem-cell new">Ported</div>
+            <div class="subsystem-cell yes">Origin</div>
+            <div class="subsystem-cell no">N/A</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Print Marks</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell new">Shared</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Resin Source</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell no">N/A</div>
+          </div>
+          <div class="subsystem-row">
+            <div class="subsystem-name">Axis State Mgmt</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell new">Shared</div>
+            <div class="subsystem-cell new">Shared</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 20px; font-size: 0.8em; flex-wrap: wrap;">
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1a3a2a;border:1px solid #3fb950;margin-right:4px;vertical-align:middle;"></span> Origin/Adopted (existed or team integrated)</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1f2a3a;border:1px solid #58a6ff;margin-right:4px;vertical-align:middle;"></span> Ported/Shared (my work)</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1a1a1a;border:1px solid #484f58;margin-right:4px;vertical-align:middle;"></span> Not applicable</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Design Principles</h2>
+      <div class="product-grid">
+        <div class="product-card shared">
+          <h4>Tasks should not access hardware</h4>
+          <ul>
+            <li>Tasks call subsystem methods</li>
+            <li>Keeps tasks portable across products</li>
+            <li>Enables unit testing without hardware</li>
+          </ul>
+        </div>
+        <div class="product-card shared">
+          <h4>Hardware stores zero state</h4>
+          <ul>
+            <li>Hardware classes are stateless drivers</li>
+            <li>Translate commands, relay responses</li>
+            <li>Interchangeable per product</li>
+          </ul>
+        </div>
+        <div class="product-card shared">
+          <h4>Subsystems own the logic</h4>
+          <ul>
+            <li>State machines, PID loops, coordination</li>
+            <li>Multi-hardware orchestration</li>
+            <li>Shared across all products</li>
+          </ul>
+        </div>
+        <div class="product-card specific">
+          <h4>Init tasks are the glue</h4>
+          <ul>
+            <li>Each product wires its hardware to shared interfaces</li>
+            <li>One-time setup at startup</li>
+            <li>Only product-specific code needed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Impact</h2>
+      <div class="impact">
+        <h4>Before shared tasks</h4>
+        <p>Adding a feature to N products required N implementations. A bug fix in one product might not propagate to others. New products required months of firmware bring-up copying and adapting existing code.</p>
+      </div>
+      <div class="impact">
+        <h4>After shared tasks</h4>
+        <ul>
+          <li>New product bring-up reduced to implementing hardware interfaces (days instead of months for supported subsystems)</li>
+          <li>Bug fixes propagate to all products automatically</li>
+          <li>12 subsystems shared across 4 product lines</li>
+          <li>Established conventions (namespace layout, error subsystem imports, CMake patterns) adopted team-wide</li>
+          <li>Wrote internal documentation used for onboarding new embedded engineers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tab-touchui">
+    <p class="feature-desc">
+      Live captures from the Form 4 touchscreen UI running locally in a virtual framebuffer (Xvfb, 1280x800)
+      with a mock MQTT backend. The UI is driven through different states by publishing
+      JSON-over-MQTT messages to simulate orchestrator broadcasts.
+    </p>
+    <div class="screenshots">
+      <div class="screenshot">
+        <img src="assets/formlabs/touchui-printer-status.png" onclick="openLightbox(this)">
+        <div class="caption">Printer Status &mdash; 3D schematic with live consumable state indicators</div>
+      </div>
+      <div class="screenshot">
+        <img src="assets/formlabs/touchui-print-queue.png" onclick="openLightbox(this)">
+        <div class="caption">Print Queue &mdash; uploaded jobs with download and compatibility status</div>
+      </div>
+      <div class="screenshot">
+        <img src="assets/formlabs/touchui-maintenance.png" onclick="openLightbox(this)">
+        <div class="caption">Maintenance &mdash; recommended service actions based on odometry and event triggers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed &amp; built by Russell Castro &copy; 2026</p>
+</footer>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      background: '#0a0a0b',
+      primaryColor: '#141416',
+      primaryTextColor: '#e4e4e7',
+      primaryBorderColor: '#27272a',
+      lineColor: '#71717a',
+      secondaryColor: '#1a1a1e',
+      tertiaryColor: '#0a0a0b',
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '12px'
+    },
+    flowchart: { curve: 'basis', padding: 12, nodeSpacing: 25, rankSpacing: 35 }
+  });
+</script>
+
+<script>
+  // Navbar scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  function showTab(evt, id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    evt.currentTarget.classList.add('active');
+  }
+
+  function openLightbox(el) {
+    document.getElementById('lightbox-img').src = el.src;
+    document.getElementById('lightbox').classList.add('active');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Russell Castro &mdash; Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0b;
+      --bg-card: #141416;
+      --bg-card-hover: #1a1a1e;
+      --text: #e4e4e7;
+      --text-muted: #71717a;
+      --accent: #e08a5e;
+      --accent-dim: rgba(224, 138, 94, 0.12);
+      --border: #27272a;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+
+    a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 10, 11, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a.logo {
+      font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em;
+      color: var(--text); text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    nav a.logo:hover { opacity: 0.75; }
+    nav a.logo span { color: var(--accent); }
+    nav .back-link {
+      color: var(--text-muted); font-size: 0.875rem; font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    nav .back-link:hover { color: var(--accent); opacity: 1; }
+
+    .hero {
+      max-width: 1100px; margin: 0 auto;
+      padding: 7rem 2rem 2.5rem;
+    }
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-label::before { content: ''; width: 2rem; height: 1px; background: var(--accent); }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 0.85rem;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--accent), #c97b4b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1rem; color: var(--text-muted);
+      max-width: 720px; line-height: 1.65;
+    }
+
+    section.body {
+      max-width: 1100px; margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .timeline-item {
+      padding-left: 2rem; margin-bottom: 3rem; position: relative;
+      scroll-margin-top: 6rem;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -4px; top: 0.55rem;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--bg); border: 2px solid var(--accent);
+    }
+    .timeline-item:first-child::before,
+    .timeline-item:target::before {
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-dim);
+    }
+    .timeline-item:target {
+      background: linear-gradient(90deg, var(--accent-dim), transparent 70%);
+      border-radius: var(--radius);
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    .timeline-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.25rem;
+    }
+    .timeline-role { font-weight: 600; font-size: 1.05rem; }
+    a.timeline-role {
+      color: inherit;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      transition: color 0.2s;
+    }
+    a.timeline-role::after {
+      content: '';
+      width: 14px; height: 14px;
+      background-color: currentColor;
+      -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><line x1='7' y1='17' x2='17' y2='7'/><polyline points='7 7 17 7 17 17'/></svg>");
+              mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><line x1='7' y1='17' x2='17' y2='7'/><polyline points='7 7 17 7 17 17'/></svg>");
+      -webkit-mask-repeat: no-repeat;     mask-repeat: no-repeat;
+      -webkit-mask-position: center;      mask-position: center;
+      opacity: 0; transform: translate(-2px, 2px);
+      transition: opacity 0.2s, transform 0.2s, color 0.2s;
+    }
+    a.timeline-role:hover {
+      color: var(--accent); opacity: 1;
+    }
+    a.timeline-role:hover::after {
+      opacity: 1; transform: translate(0, 0);
+    }
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .timeline-org { color: var(--accent); font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .timeline-desc {
+      color: var(--text-muted); font-size: 0.875rem; line-height: 1.7;
+    }
+    .timeline-desc li { margin-bottom: 0.35rem; margin-left: 1rem; }
+
+    .anchor {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-left: 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      opacity: 0;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .timeline-item:hover .anchor,
+    .timeline-item:target .anchor { opacity: 1; }
+    .anchor:hover { color: var(--accent); opacity: 1; }
+
+    footer {
+      text-align: center; padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.25rem 1.5rem; }
+      section.body { padding: 1rem 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">r<span>.</span>castro</a>
+  <a href="index.html" class="back-link">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    back
+  </a>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Work History</div>
+  <h1>Experience <span class="highlight">&amp; Roles</span></h1>
+  <p>A running list of technical roles I&rsquo;ve held since high school.</p>
+</div>
+
+<section class="body">
+  <div class="timeline">
+
+    <div class="timeline-item" id="formlabs">
+      <div class="timeline-meta">
+        <a class="timeline-role" href="formlabs.html">Embedded Software Intern</a>
+        <span class="timeline-date">Aug 2025 &ndash; Present</span>
+      </div>
+      <div class="timeline-org">Formlabs Inc. &mdash; Somerville, MA (Remote since January 2026)</div>
+      <ul class="timeline-desc">
+        <li>Led end-to-end software bringup for embedded services, onboard UI, and cloud integration (C/C++, QML, Go, Protobuf) for Form 4/L and Fuse product lines.</li>
+        <li>Collapsed multiple product codebases into a shared modular architecture, eliminating duplicate code across 3 product lines.</li>
+        <li>Architected reusable hardware abstraction layer in modern C++, reducing integration effort by 80% per new subsystem; adopted by 3 non-software teams.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item" id="nersc">
+      <div class="timeline-meta">
+        <a class="timeline-role" href="nersc.html">Student Software Research Intern</a>
+        <span class="timeline-date">May 2025 &ndash; Jan 2026</span>
+      </div>
+      <div class="timeline-org">NERSC @ Lawrence Berkeley National Laboratory</div>
+      <ul class="timeline-desc">
+        <li>Implemented SNAP machine-learning interatomic potentials with novel "gradient-targeting" energy-and-force fitting, achieving &gt;10% gains in accuracy and training runtime.</li>
+        <li>Profiled and optimized molecular dynamics on NERSC HPC via parallel Kokkos (C/C++) GPU acceleration, up to 4x throughput improvement on multi-GPU nodes.</li>
+        <li>Benchmarked 5+ wavefunction ansatze for VQE-to-AFQMC ground-state convergence (Qiskit, CUDA-Q, CuPy, PySCF).</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item" id="bebop">
+      <div class="timeline-meta">
+        <a class="timeline-role" href="bebop.html">Student Researcher</a>
+        <span class="timeline-date">Aug 2024 &ndash; Present</span>
+      </div>
+      <div class="timeline-org">BeBOP (Berkeley Benchmarking and OPtimization) @ UC Berkeley</div>
+      <ul class="timeline-desc">
+        <li>Developed GPU-efficient SO(3) rotationally equivariant neural networks, delivering ~10% accuracy improvement over conventional GNNs on CERN TrackML.</li>
+        <li>Conducted research on combined pre-processing methods for sparse-dense matrix multiplication, reducing runtime variance by ~15% over state-of-the-art.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item" id="cyberpatriot">
+      <div class="timeline-meta">
+        <span class="timeline-role">CS Club President &middot; Team Captain &middot; Windows Server Hardening Lead</span>
+        <span class="timeline-date">Nov 2020 &ndash; May 2023</span>
+      </div>
+      <div class="timeline-org">Cyberpatriot Competition</div>
+      <ul class="timeline-desc">
+        <li>Led a ~60-member Computer Science Club as president, organizing technical workshops and competition prep.</li>
+        <li>Captained the team to a top 2% national finish, advancing to semifinalists; specialized in Windows Server hardening across multiple competition rounds.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item" id="inventeam">
+      <div class="timeline-meta">
+        <a class="timeline-role" href="inventeam.html">Cofounder &amp; Project Manager</a>
+        <span class="timeline-date">Oct 2020 &ndash; Jun 2022</span>
+      </div>
+      <div class="timeline-org">NerdHerd Lemelson-MIT InvenTeam</div>
+      <ul class="timeline-desc">
+        <li>Led 1 of 8 nationally selected Lemelson-MIT InvenTeams; secured a $10,000 grant to design, build, and present a wearable anti-drowning device with sub-5-second response time.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item" id="frc">
+      <div class="timeline-meta">
+        <span class="timeline-role">Technical Lead and Main Driver</span>
+        <span class="timeline-date">Aug 2019 &ndash; May 2023</span>
+      </div>
+      <div class="timeline-org">FIRST Robotics Competition</div>
+      <ul class="timeline-desc">
+        <li>Mechanical design, controls, and autonomous routines for competition robots across four build seasons.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Designed &amp; built by Russell Castro &copy; 2026</p>
+</footer>
+
+<script>
+  // Smooth-scroll on initial load when a hash is present (browsers normally
+  // jump instantly on first paint).
+  window.addEventListener('load', () => {
+    if (location.hash) {
+      const el = document.querySelector(location.hash);
+      if (el) {
+        window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+        requestAnimationFrame(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
